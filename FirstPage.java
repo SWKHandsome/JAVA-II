@@ -8,8 +8,8 @@ public class FirstPage extends Application{
   
     @Override  
     public void start(Stage primaryStage) throws Exception {
-	Button btn1=new Button("Say, Hello World"); 
-	StackPane root=new StackPane();  
+	    Button btn1=new Button("Say, Hello World"); 
+	    StackPane root=new StackPane();  
         root.getChildren().add(btn1);
 	    Scene scene=new Scene(root,600,400);
 	    primaryStage.setTitle("First JavaFX Application");  

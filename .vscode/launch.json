@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "FirstPage2",
+      "request": "launch",
+      "mainClass": "FirstPage2",
+      "projectName": "JAVA-II_4bacb412"
+    },
+    {
+      "type": "java",
       "name": "TestingPage",
       "request": "launch",
       "mainClass": "TestingPage",
