@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;  
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -7,7 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;  
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 
 public class FirstPage2 extends Application{  
   
@@ -52,7 +57,24 @@ public class FirstPage2 extends Application{
         VBox topContainer = new VBox();
         topContainer.getChildren().addAll(menuBar,toolBar);
 
+        Label menuLabel =  new Label("Category");
+        menuLabel.setFont(Font.font("Arial",FontWeight.BOLD, 20));
+        menuLabel.setTextFill(Color.GREEN);
+        menuLabel.setPadding(new Insets(10,10,20,10));
+
+        Button ironButton = new Button("Iron");
+        Button aluminiumButton = new Button("Aliminium");
+        Button copperButton = new Button("Copper");
+        ironButton.setPrefWidth(100);
+        aluminiumButton.setPrefWidth(100);
+        copperButton.setPrefWidth(100);
+
+        VBox leftContent = new VBox();
+        leftContent.setPadding(new Insets(10));
+        leftContent.getChildren().addAll(menuLabel,ironButton,aluminiumButton,copperButton);
+
         borderPane.setTop(topContainer);
+        borderPane.setLeft(leftContent);
         Scene scene = new Scene(borderPane , 800, 600);
         stage.setTitle("Material Input");
         stage.setScene(scene);
