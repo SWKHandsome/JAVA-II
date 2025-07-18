@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -73,8 +74,55 @@ public class FirstPage2 extends Application{
         leftContent.setPadding(new Insets(10));
         leftContent.getChildren().addAll(menuLabel,ironButton,aluminiumButton,copperButton);
 
+        Label titleLabel = new Label("Cost Calculator");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD,20));
+        titleLabel.setTextFill(Color.BLUE);
+        titleLabel.setPadding(new Insets(10));
+
+        Label categoryLabel = new Label("Category");
+        Label priceLabel = new Label("Price");
+        Label quantityLabel = new Label("Quantity");
+        Label resultLabel = new Label();
+
+        TextField categoryField = new TextField();
+        TextField priceField = new TextField();
+        TextField quantityField = new TextField();
+
+        Button calButton = new Button("Calculate");
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+        gridPane.add(categoryLabel,0,0); 
+        gridPane.add(priceLabel,0,1);
+        gridPane.add(quantityLabel,0,2);
+        gridPane.add(categoryField,1,0);
+        gridPane.add(priceField,1,1);
+        gridPane.add(quantityField,1,2);
+        gridPane.add(resultLabel,1,3);
+        gridPane.add(calButton,1,4);
+
+        VBox centerContent = new VBox();
+        centerContent.setPadding(new Insets(10,10,10,50));
+        centerContent.getChildren().add(titleLabel);
+        centerContent.getChildren().add(gridPane);
+
+        calButton.setOnAction(e ->{
+            try{
+                double price = Double.parseDouble(priceField.getText());
+                double quantity = Double.parseDouble(quantityField.getText());
+                double result = price*quantity;
+                resultLabel.setText(String.format("RM%.2f", result));
+            }
+            catch(NumberFormatException ex){
+                resultLabel.setText("Invalid Input. Please enter numerical value!");
+            }
+        });
+
         borderPane.setTop(topContainer);
         borderPane.setLeft(leftContent);
+        borderPane.setCenter(centerContent);
         Scene scene = new Scene(borderPane , 800, 600);
         stage.setTitle("Material Input");
         stage.setScene(scene);
