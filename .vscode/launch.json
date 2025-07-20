@@ -6,6 +6,13 @@
       "name": "FirstPage2",
       "request": "launch",
       "mainClass": "FirstPage2",
+      "projectName": "JAVA-II_eea9143"
+    },
+    {
+      "type": "java",
+      "name": "FirstPage2",
+      "request": "launch",
+      "mainClass": "FirstPage2",
       "projectName": "JAVA-II_4bacb412"
     },
     {
