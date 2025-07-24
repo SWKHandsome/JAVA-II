@@ -10,6 +10,12 @@ class Apple extends Fruit{
     }
 }
 
+class Banana extends Fruit{
+    public void bananaType(){
+        System.out.println(("This is a banana"));
+    }
+}
+
 public class f {
     public static void main(String[] args) {
         Fruit f = new Apple();
@@ -19,5 +25,10 @@ public class f {
 
         Fruit B = new Fruit();
         B.describe();
+
+        Fruit C = new Banana();
+        Banana D = (Banana)C;
+        D.describe();
+        D.bananaType();
     }
 }

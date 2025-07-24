@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "car",
+      "request": "launch",
+      "mainClass": "car",
+      "projectName": "JAVA-II_eea9143"
+    },
+    {
+      "type": "java",
+      "name": "f",
+      "request": "launch",
+      "mainClass": "f",
+      "projectName": "JAVA-II_eea9143"
+    },
+    {
+      "type": "java",
       "name": "Animal",
       "request": "launch",
       "mainClass": "Animal",
