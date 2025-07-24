@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Animal",
+      "request": "launch",
+      "mainClass": "Animal",
+      "projectName": "JAVA-II_eea9143"
+    },
+    {
+      "type": "java",
       "name": "App",
       "request": "launch",
       "mainClass": "App",
