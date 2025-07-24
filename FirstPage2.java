@@ -108,7 +108,7 @@ public class FirstPage2 extends Application{
         centerContent.getChildren().add(titleLabel);
         centerContent.getChildren().add(gridPane);
 
-        calButton.setOnAction(e ->{
+        calButton.setOnAction(e ->{         
             try{
                 double price = Double.parseDouble(priceField.getText());
                 double quantity = Double.parseDouble(quantityField.getText());
