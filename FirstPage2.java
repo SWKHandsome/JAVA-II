@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 public class FirstPage2 extends Application{  
   
@@ -50,9 +56,14 @@ public class FirstPage2 extends Application{
         Button searchButton = new Button("Search");
         searchButton.setGraphic(searchImageView);
 
+        Button updateButton = new Button("Update");
+        Button deleteButton = new Button("Delete");
+
         TextField searchField = new TextField();
 
         toolBar.getItems().add(saveButton);
+        toolBar.getItems().add(updateButton);
+        toolBar.getItems().add(deleteButton);
         toolBar.getItems().add(searchField);
         toolBar.getItems().add(searchButton);
         VBox topContainer = new VBox();
@@ -89,6 +100,13 @@ public class FirstPage2 extends Application{
         TextField quantityField = new TextField();
 
         Button calButton = new Button("Calculate");
+
+        Label firstNameLabel = new Label("First Name");
+        Label lastNameLabel = new Label("Last Name");
+        TextField firstNameField = new TextField();
+        TextField lastNameField = new TextField();
+
+
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
         gridPane.setHgap(10);
@@ -102,6 +120,8 @@ public class FirstPage2 extends Application{
         gridPane.add(quantityField,1,2);
         gridPane.add(resultLabel,1,3);
         gridPane.add(calButton,1,4);
+
+
 
         VBox centerContent = new VBox();
         centerContent.setPadding(new Insets(10,10,10,50));

@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "database",
+      "request": "launch",
+      "mainClass": "database",
+      "projectName": "JAVA-II_4bacb412"
+    },
+    {
+      "type": "java",
       "name": "App",
       "request": "launch",
       "mainClass": "App",

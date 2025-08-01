@@ -31,7 +31,7 @@ public class App extends Application {
         TextField timeField = new TextField();
         TextField durationField = new TextField();
 
-        Button calButton = new Button("Calculate");
+        Button calButton = new Button("Calculate"); 
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
