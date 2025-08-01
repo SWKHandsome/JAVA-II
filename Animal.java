@@ -1,11 +1,11 @@
 public class Animal {
 
     public static void main (String[] args) {
-        Dog dog = new Dog();
+        pets dog = new Dog();
         dog.sound();
-        Cat cat = new Cat();
+        pets cat = new Cat();
         cat.sound();
-        Ryan ryan = new Ryan();
+        pets ryan = new Ryan();
         ryan.sound();
     }
 }
@@ -36,6 +36,6 @@ class Ryan extends pets{
     @Override
     void sound() {
         super.sound();
-        System.out.println("欸zhihong, 现在我们要做什么");
+        System.out.println("ei zhihong, what we need do now");
     }
 }
