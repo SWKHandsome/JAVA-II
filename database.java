@@ -5,7 +5,7 @@ import java.sql.Statement;
 
 public class database {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/javatest"; // Replace with your actual DB name
+        String url = "jdbc:mysql://localhost:3306/java-ii"; // Replace with your actual DB name
         String user = "root";
         String password = ""; // Default for Laragon
 
@@ -13,7 +13,7 @@ public class database {
             System.out.println("✅ Connected to MySQL!");
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM test");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM persons");
 
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id") +

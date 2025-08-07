@@ -13,9 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -121,12 +121,26 @@ public class FirstPage2 extends Application{
         gridPane.add(resultLabel,1,3);
         gridPane.add(calButton,1,4);
 
+        gridPane.add(firstNameLabel,0,5);
+        gridPane.add(lastNameLabel,0,6);
+        gridPane.add(firstNameField,1,5);
+        gridPane.add(lastNameField,1,6);
 
+        saveButton.setOnAction(e -> {
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            data.add(new Persons(firstName,lastName));
+
+            firstNameField.clear();
+            lastNameField.clear();
+        });
 
         VBox centerContent = new VBox();
         centerContent.setPadding(new Insets(10,10,10,50));
         centerContent.getChildren().add(titleLabel);
         centerContent.getChildren().add(gridPane);
+
+       
 
         calButton.setOnAction(e ->{         
             try{
@@ -148,6 +162,27 @@ public class FirstPage2 extends Application{
         stage.setScene(scene);
         stage.show();      
    }
+
+    private void saveToDatabase(String firstName, String lastName){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            try{
+                connection=DriverManager.getConnection(jdbcUrl, ussername, password);
+                //create a statement
+                String sql = "INSERT INTO persons(first_name, last_name) VALUES(?,?)";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1,firstName);//第一个问号
+                preparedStatement.setString(2, lastName);//第二个问号
+                preparedStatement.executeUpdate();
+                System.out.println("Data inserted");
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
    public static void main (String[] args)  
     {  
         launch(args);  
