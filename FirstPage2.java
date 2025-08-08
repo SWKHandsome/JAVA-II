@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;  
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 
 
 public class FirstPage2 extends Application{  
@@ -48,6 +50,7 @@ public class FirstPage2 extends Application{
         saveImageView.setFitWidth(20);
         Button saveButton = new Button("Save");
         saveButton.setGraphic(saveImageView);
+
 
         Image searchIcon = new Image("PNG\\logo 1.png");
         ImageView searchImageView = new ImageView(searchIcon);
@@ -126,21 +129,33 @@ public class FirstPage2 extends Application{
         gridPane.add(firstNameField,1,5);
         gridPane.add(lastNameField,1,6);
 
-        saveButton.setOnAction(e -> {
-            String firstName = firstNameField.getText();
-            String lastName = lastNameField.getText();
-            data.add(new Persons(firstName,lastName));
+        TableView tableView = new TableView();
 
-            firstNameField.clear();
-            lastNameField.clear();
-        });
+        TableColumn firstNameCol = new TableColumn("First Name");
+        firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
+
+        TableColumn lastNameCol = new TableColumn("Last Name");
+        lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
+
+        tableView.getColumns().addAll(firstNameCol,lastNameCol);
+
+        VBox rightContent = new VBox();
+        rightContent.setPadding(new Insets(10));
+        rightContent.getChildren().addAll(tableView);
 
         VBox centerContent = new VBox();
         centerContent.setPadding(new Insets(10,10,10,50));
         centerContent.getChildren().add(titleLabel);
         centerContent.getChildren().add(gridPane);
 
-       
+        saveButton.setOnAction(e -> {
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            saveToDatabase(firstName, lastName);
+
+            firstNameField.clear();
+            lastNameField.clear();
+        });
 
         calButton.setOnAction(e ->{         
             try{
@@ -157,34 +172,75 @@ public class FirstPage2 extends Application{
         borderPane.setTop(topContainer);
         borderPane.setLeft(leftContent);
         borderPane.setCenter(centerContent);
+        borderPane.setRight(rightContent);
         Scene scene = new Scene(borderPane , 800, 600);
         stage.setTitle("Material Input");
         stage.setScene(scene);
         stage.show();      
    }
 
-    private void saveToDatabase(String firstName, String lastName){
+        private void saveToDatabase(String firstName, String lastName){
             String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
             String ussername = "root";
             String password = "";
             Connection connection = null;
             PreparedStatement preparedStatement = null;
-            try{
-                connection=DriverManager.getConnection(jdbcUrl, ussername, password);
-                //create a statement
-                String sql = "INSERT INTO persons(first_name, last_name) VALUES(?,?)";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1,firstName);//第一个问号
-                preparedStatement.setString(2, lastName);//第二个问号
-                preparedStatement.executeUpdate();
-                System.out.println("Data inserted");
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
+                try{
+                    connection=DriverManager.getConnection(jdbcUrl, ussername, password);
+                    //create a statement
+                    String sql = "INSERT INTO persons(first_name, last_name) VALUES(?,?)";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1,firstName);//第一个问号
+                    preparedStatement.setString(2, lastName);//第二个问号
+                    preparedStatement.executeUpdate();
+                    System.out.println("Data inserted");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+        }
+    
+        private void retriveDataFromDatabase(){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            Statement preparedStatement = null;
+            ResultSet resultSet = null;
+
+                try{
+                    connection=DriverManager.getConnection(jdbcUrl, ussername, password);
+                    //create a statement
+                    preparedStatement = connection.createStatement();
+                    String sql = "SELECT * FROM persons";
+                    resultSet = preparedStatement.executeQuery(sql);
+                    
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
         }
    public static void main (String[] args)  
     {  
-        launch(args);  
+        launch(args);   
     } 
+
+    public class Person{
+        private String firstName;
+        private String lastName;
+
+        public Person (String firstName, String lastName){
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        public String getFirstName(){
+            return firstName;
+        }
+
+        public String getLastName(){
+            return lastName;
+        }
+    }
 }
+
