@@ -1,5 +1,7 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;  
 import javafx.scene.control.*;
@@ -24,6 +26,9 @@ import java.sql.Statement;
 
 
 public class FirstPage2 extends Application{  
+
+    private TableView<Person> tableView = new TableView<>();
+    private ObservableList<Person> data  = FXCollections.observableArrayList();
   
     @Override  
     public void start(Stage stage) {
@@ -131,12 +136,13 @@ public class FirstPage2 extends Application{
 
         TableView tableView = new TableView();
 
-        TableColumn firstNameCol = new TableColumn("First Name");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
+        TableColumn<Person, String> firstNameCol = new TableColumn<>("First Name");
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-        TableColumn lastNameCol = new TableColumn("Last Name");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
+        TableColumn<Person, String> lastNameCol = new TableColumn<>("Last Name");
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
+        tableView.setItems(data);
         tableView.getColumns().addAll(firstNameCol,lastNameCol);
 
         VBox rightContent = new VBox();
@@ -153,6 +159,9 @@ public class FirstPage2 extends Application{
             String lastName = lastNameField.getText();
             saveToDatabase(firstName, lastName);
 
+            retriveDataFromDatabase();
+
+
             firstNameField.clear();
             lastNameField.clear();
         });
@@ -168,6 +177,8 @@ public class FirstPage2 extends Application{
                 resultLabel.setText("Invalid Input. Please enter numerical value!");
             }
         });
+
+        retriveDataFromDatabase();
 
         borderPane.setTop(topContainer);
         borderPane.setLeft(leftContent);
@@ -214,7 +225,15 @@ public class FirstPage2 extends Application{
                     preparedStatement = connection.createStatement();
                     String sql = "SELECT * FROM persons";
                     resultSet = preparedStatement.executeQuery(sql);
-                    
+
+                    data.clear();
+                    while (resultSet.next()) {
+                        String firstName = resultSet.getString("first_name");
+                        String lastName = resultSet.getString("last_name");
+
+                        data.add(new Person(firstName, lastName));
+                    }
+                    System.out.println("Data retrieved successfully");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
