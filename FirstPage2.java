@@ -178,6 +178,21 @@ public class FirstPage2 extends Application{
             }
         });
 
+        deleteButton.setOnAction(e -> {
+
+            Person selectedPerson =(Person) tableView.getSelectionModel().getSelectedItem();
+            if(selectedPerson != null){
+                deleteFromDatabase(selectedPerson.getFirstName(), selectedPerson.getLastName());
+                System.out.println("Selected Item");
+            }
+
+            else{
+                System.out.println("No Selected Item");
+            }
+            retriveDataFromDatabase();
+
+        });
+
         retriveDataFromDatabase();
 
         borderPane.setTop(topContainer);
@@ -239,6 +254,30 @@ public class FirstPage2 extends Application{
                     e.printStackTrace();
                 }
         }
+
+        private void deleteFromDatabase(String firstName, String lastName){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+
+                try{
+                    connection=DriverManager.getConnection(jdbcUrl, ussername, password);
+                    //create a statement
+                    String sql = "DELETE FROM persons WHERE first_name = ? and last_name = ?";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, firstName);
+                    preparedStatement.setString(2, lastName);
+                    preparedStatement.executeUpdate();
+
+                    System.out.println("Data retrieved successfully");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+        }
+
    public static void main (String[] args)  
     {  
         launch(args);   
