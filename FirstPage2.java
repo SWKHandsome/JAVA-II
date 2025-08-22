@@ -134,8 +134,6 @@ public class FirstPage2 extends Application{
         gridPane.add(firstNameField,1,5);
         gridPane.add(lastNameField,1,6);
 
-        TableView tableView = new TableView();
-
         TableColumn<Person, String> firstNameCol = new TableColumn<>("First Name");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
@@ -195,6 +193,29 @@ public class FirstPage2 extends Application{
 
         retriveDataFromDatabase();
 
+        tableView.setOnMouseClicked(event -> {
+            Person selectedPerson = tableView.getSelectionModel().getSelectedItem();
+            if (selectedPerson != null) {
+                firstNameField.setText(selectedPerson.getFirstName());
+                lastNameField.setText(selectedPerson.getLastName());
+            }
+        });
+
+        updateButton.setOnAction(e ->{
+           Person selectedPerson = tableView.getSelectionModel().getSelectedItem(); 
+           if (selectedPerson != null) {
+                String newFirstName = firstNameField.getText();
+                String newLastName = lastNameField.getText();
+                updateDatabase(selectedPerson.getFirstName(), selectedPerson.getLastName(), newFirstName, newLastName);
+                retriveDataFromDatabase();
+                firstNameField.clear();
+                lastNameField.clear();
+           }
+           else {
+            System.out.println("No row selected for update");
+           }
+        });
+
         borderPane.setTop(topContainer);
         borderPane.setLeft(leftContent);
         borderPane.setCenter(centerContent);
@@ -204,7 +225,7 @@ public class FirstPage2 extends Application{
         stage.setScene(scene);
         stage.show();      
    }
-
+   
         private void saveToDatabase(String firstName, String lastName){
             String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
             String ussername = "root";
@@ -276,6 +297,30 @@ public class FirstPage2 extends Application{
                 catch(SQLException e){
                     e.printStackTrace();
                 }
+        }
+
+        private void updateDatabase(String oldFirstName, String oldLastName, String newFirstName, String newLastName){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+
+                try{
+                    connection=DriverManager.getConnection(jdbcUrl, ussername, password);
+                    //create a statement
+                    String sql = "UPDATE persons SET first_name = ?, last_name = ? WHERE first_name = ? AND last_name = ?";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, newFirstName);
+                    preparedStatement.setString(2, newLastName);
+                    preparedStatement.setString(3, oldFirstName);
+                    preparedStatement.setString(4, oldLastName);
+
+                    int rowsUpdated = preparedStatement.executeUpdate();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }                   
         }
 
    public static void main (String[] args)  
