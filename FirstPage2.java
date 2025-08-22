@@ -29,6 +29,7 @@ public class FirstPage2 extends Application{
 
     private TableView<Person> tableView = new TableView<>();
     private ObservableList<Person> data  = FXCollections.observableArrayList();
+    private Label dbStatusLabel = new Label("Checking databse....");
   
     @Override  
     public void start(Stage stage) {
