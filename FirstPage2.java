@@ -192,7 +192,21 @@ public class FirstPage2 extends Application{
 
         });
 
+        searchButton.setOnAction(e -> {
+            if (searchField.getText() != null) {
+                String Keyword = searchField.getText();
+                searchFromDatabase(Keyword);
+            }
+            else {
+                System.out.println("No Search Keyword");
+            }
+        });
+
         retriveDataFromDatabase();
+
+        checkDatabaseConnection();
+
+        borderPane.setBottom(dbStatusLabel); // Add status label at bottom
 
         tableView.setOnMouseClicked(event -> {
             Person selectedPerson = tableView.getSelectionModel().getSelectedItem();
@@ -323,6 +337,51 @@ public class FirstPage2 extends Application{
                     e.printStackTrace();
                 }                   
         }
+
+        private void checkDatabaseConnection(){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            
+            try{
+                connection = DriverManager.getConnection(jdbcUrl, ussername, password);
+                dbStatusLabel.setText("Database Connected");
+                dbStatusLabel.setTextFill(Color.GREEN);
+            }
+            catch (SQLException e) {
+                dbStatusLabel.setText("Database Not Connected");
+                dbStatusLabel.setTextFill(Color.RED);
+            }
+        }
+
+        private void searchFromDatabase(String Keyword){
+            String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
+            String ussername = "root";
+            String password = "";
+            Connection connection = null;
+            Statement preparedStatement = null;
+            ResultSet resultSet = null;
+            try{ 
+                connection = DriverManager.getConnection(jdbcUrl, ussername, password);
+                preparedStatement = connection.createStatement();
+                String sql = "SELECT * FROM persons WHERE first_name like '%" + Keyword + "%' " + "or last_name like '%" + Keyword + "%'";
+                resultSet = preparedStatement.executeQuery(sql);
+                data.clear();
+                while (resultSet.next()) {
+                    String firstName = resultSet.getString("first_name");
+                    String lastName = resultSet.getString("last_name");
+                    data.add(new Person(firstName, lastName));
+                }
+                System.out.println("Data retrieved successfully.");
+            }
+            catch(SQLException e){
+                    e.printStackTrace();
+                }
+        }
+            
+        
 
    public static void main (String[] args)  
     {  
