@@ -83,9 +83,16 @@ public class FirstPage2 extends Application{
         menuLabel.setTextFill(Color.GREEN);
         menuLabel.setPadding(new Insets(10,10,20,10));
 
-        Button ironButton = new Button("Iron");
-        Button aluminiumButton = new Button("Aliminium");
-        Button copperButton = new Button("Copper");
+        // Button ironButton = new Button("Iron");
+        // Button aluminiumButton = new Button("Aliminium");
+        // Button copperButton = new Button("Copper");
+        // ironButton.setPrefWidth(100);
+        // aluminiumButton.setPrefWidth(100);
+        // copperButton.setPrefWidth(100);
+
+        Button ironButton = new Button("User");
+        Button aluminiumButton = new Button("Cost Calculator");
+        Button copperButton = new Button("FAQ");
         ironButton.setPrefWidth(100);
         aluminiumButton.setPrefWidth(100);
         copperButton.setPrefWidth(100);
@@ -121,19 +128,33 @@ public class FirstPage2 extends Application{
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        gridPane.add(categoryLabel,0,0); 
-        gridPane.add(priceLabel,0,1);
-        gridPane.add(quantityLabel,0,2);
-        gridPane.add(categoryField,1,0);
-        gridPane.add(priceField,1,1);
-        gridPane.add(quantityField,1,2);
-        gridPane.add(resultLabel,1,3);
-        gridPane.add(calButton,1,4);
+        // gridPane.add(categoryLabel,0,0); 
+        // gridPane.add(priceLabel,0,1);
+        // gridPane.add(quantityLabel,0,2);
+        // gridPane.add(categoryField,1,0);
+        // gridPane.add(priceField,1,1);
+        // gridPane.add(quantityField,1,2);
+        // gridPane.add(resultLabel,1,3);
+        // gridPane.add(calButton,1,4);
 
-        gridPane.add(firstNameLabel,0,5);
-        gridPane.add(lastNameLabel,0,6);
-        gridPane.add(firstNameField,1,5);
-        gridPane.add(lastNameField,1,6);
+        gridPane.add(firstNameLabel,0,0);
+        gridPane.add(lastNameLabel,0,1);
+        gridPane.add(firstNameField,1,0);
+        gridPane.add(lastNameField,1,1);
+
+        GridPane gridPane2 = new GridPane();
+        gridPane2.setPadding(new Insets(10));
+        gridPane2.setHgap(10);
+        gridPane2.setVgap(10);
+
+        gridPane2.add(categoryLabel,0,0); 
+        gridPane2.add(priceLabel,0,1);
+        gridPane2.add(quantityLabel,0,2);
+        gridPane2.add(categoryField,1,0);
+        gridPane2.add(priceField,1,1);
+        gridPane2.add(quantityField,1,2);
+        gridPane2.add(resultLabel,1,3);
+        gridPane2.add(calButton,1,4);
 
         TableColumn<Person, String> firstNameCol = new TableColumn<>("First Name");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -200,6 +221,16 @@ public class FirstPage2 extends Application{
             else {
                 System.out.println("No Search Keyword");
             }
+        });  
+
+        ironButton.setOnAction(e ->{
+            centerContent.getChildren().remove(gridPane2);
+            centerContent.getChildren().add(gridPane);
+        });
+
+        aluminiumButton.setOnAction(e ->{
+            centerContent.getChildren().remove(gridPane);
+            centerContent.getChildren().add(gridPane2);
         });
 
         retriveDataFromDatabase();
