@@ -233,6 +233,17 @@ public class FirstPage2 extends Application{
             centerContent.getChildren().add(gridPane2);
         });
 
+        copperButton.setOnAction(e ->{
+            int[] ranges = {10000, 15000, 20000};
+            for (int i = 0; i < ranges.length; i++) {
+                int threadId = i + 1;
+                int upperLimit = ranges[i];
+
+                Thread t = new Thread(() -> calculatePrime(threadId, upperLimit));
+                t.setDaemon(true);
+                t.start();
+            }
+        });
         retriveDataFromDatabase();
 
         checkDatabaseConnection();
@@ -271,6 +282,23 @@ public class FirstPage2 extends Application{
         stage.setScene(scene);
         stage.show();      
    }
+
+        private void calculatePrime(int threadId, int upperLimit) {
+            int primeCount = 0;
+            for(int num = 2; num <= upperLimit; num++) {
+                if(isPrime(num)) primeCount++;
+            }
+            String result = "Thread" + threadId + ": Found" + primeCount + " prime up to " + upperLimit;
+            System.out.println(result);
+        }
+
+        private boolean isPrime(int number) {
+            if(number < 2) return false;
+            for(int i = 2; i <= Math.sqrt(number); i++) {
+                if(number % i == 0) return false;
+            }
+            return true;
+        }
    
         private void saveToDatabase(String firstName, String lastName){
             String jdbcUrl = "jdbc:mysql://localhost:3306/java-ii";
